@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
 import { developerServices } from "../services";
+import {
+  IDeveloperResponse,
+  IDevelopers,
+  TDeveloperCreate,
+  TDeveloperUpdate,
+} from "../interfaces/developer.interfaces";
 
 const createDeveloper = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const payload: any = req.body;
+  const payload: TDeveloperCreate = req.body;
 
-  const newDev = developerServices.create(payload);
+  const newDev: IDevelopers = await developerServices.create(payload);
 
   return res.status(201).json(newDev);
 };
@@ -16,25 +22,33 @@ const findDeveloper = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const payload: any = req.body;
+  const { id } = res.locals;
 
-  return res.status(201).json();
+  const foundDev: IDeveloperResponse = await developerServices.read(id);
+
+  return res.status(201).json(foundDev);
 };
 
 const updateDeveloper = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const payload: any = req.body;
+  const payload: TDeveloperUpdate = req.body;
 
-  return res.status(201).json();
+  const { id } = res.locals;
+
+  const updatedDev: IDevelopers = await developerServices.update(payload, id);
+
+  return res.status(201).json(updatedDev);
 };
 
 const deleteDeveloper = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const payload: any = req.body;
+  const { id } = res.locals;
+
+  await developerServices.destroy(id)
 
   return res.status(204).send();
 };

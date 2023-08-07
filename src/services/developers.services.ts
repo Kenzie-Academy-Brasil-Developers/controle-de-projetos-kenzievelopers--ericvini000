@@ -1,8 +1,14 @@
 import format from "pg-format";
 import { client } from "../database";
-import { QueryResult } from "pg";
+import { Query, QueryResult } from "pg";
+import {
+  IDeveloperResponse,
+  IDevelopers,
+  TDeveloperCreate,
+  TDeveloperUpdate,
+} from "../interfaces/developer.interfaces";
 
-const create = async (payload: any) => {
+const create = async (payload: TDeveloperCreate) => {
   const queryString: string = format(
     `
         INSERT INTO "developers"
@@ -14,9 +20,10 @@ const create = async (payload: any) => {
     Object.keys(payload),
     Object.values(payload)
   );
-  const queryResult: QueryResult = await client.query(queryString);
 
-  return queryResult.rows;
+  const queryResult: QueryResult<IDevelopers> = await client.query(queryString);
+
+  return queryResult.rows[0];
 };
 
 const read = async (id: number) => {
@@ -36,13 +43,43 @@ const read = async (id: number) => {
   WHERE 
     id=$1;`;
 
-  const queryResult = await client.query(queryString, [id]);
+  const queryResult: QueryResult<IDeveloperResponse> = await client.query(
+    queryString,
+    [id]
+  );
 
   return queryResult.rows[0];
 };
 
-const update = async (payload: any, id: number) => {};
+const update = async (payload: TDeveloperUpdate, id: number) => {
+  const queryString: string = format(
+    `
+  UPDATE 
+    "developers"
+  SET 
+    (I%) = ROW(%L)
+  WHERE
+    id=$1
+  RETURNING *;
+  `,
+    Object.keys(payload),
+    Object.values(payload)
+  );
 
-const destroy = async (id: number) => {};
+  const queryResult: QueryResult<IDevelopers> = await client.query(
+    queryString,
+    [id]
+  );
+
+  return queryResult.rows[0];
+};
+
+const destroy = async (id: number) => {
+  const queryString = `DELETE FROM "developers" WHERE id=$1;`;
+
+  await client.query(queryString, [id]);
+
+  return;
+};
 
 export default { create, read, update, destroy };

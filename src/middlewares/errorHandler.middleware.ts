@@ -6,7 +6,7 @@ const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> | Response => {
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({ message: error.message });
   }
