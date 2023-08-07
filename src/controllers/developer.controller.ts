@@ -28,7 +28,7 @@ const findDeveloper = async (
 
   const foundDev: IDeveloperResponse = await developerServices.read(id);
 
-  return res.status(201).json(foundDev);
+  return res.status(200).json(foundDev);
 };
 
 const updateDeveloper = async (
@@ -41,7 +41,7 @@ const updateDeveloper = async (
 
   const updatedDev: IDevelopers = await developerServices.update(payload, id);
 
-  return res.status(201).json(updatedDev);
+  return res.status(200).json(updatedDev);
 };
 
 const deleteDeveloper = async (
@@ -61,7 +61,9 @@ const createDeveloperInfo = async (
 ): Promise<Response> => {
   const payload: TDeveloperInfosCreate = req.body;
 
-  const newInfo: IDeveloperInfos = await developerServices.newInfo(payload);
+  const { id } = res.locals;
+
+  const newInfo: IDeveloperInfos = await developerServices.newInfo(payload, id);
 
   return res.status(201).json(newInfo);
 };

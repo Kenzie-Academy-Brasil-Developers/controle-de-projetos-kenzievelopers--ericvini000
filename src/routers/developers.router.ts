@@ -25,8 +25,8 @@ developerRouter.delete("/:id", deleteDeveloper);
 
 developerRouter.post(
   "/:id/infos",
-  checkInfoExists,
   checkPreferredOS,
+  checkInfoExists,
   createDeveloperInfo
 );
 

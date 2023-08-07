@@ -15,9 +15,9 @@ const checkInfoExists = async (
     SELECT
         *
     FROM 
-        "developerInfo"
+        "developerInfos"
     WHERE
-        developerId=$1;
+        "developerId"=$1;
     `;
     
   const queryResult: QueryResult<IDeveloperInfos> = await client.query(

@@ -22,7 +22,7 @@ const checkEmailExists = async (
 
   const emailExists = await client.query(queryString, [email]);
 
-  if (emailExists) throw new AppError("Email already exists.", 409);
+  if (emailExists.rowCount) throw new AppError("Email already exists.", 409);
 
   return next();
 };

@@ -43,7 +43,7 @@ const read = async (id: number) => {
   ON
     "dev"."id" = "di"."developerId"
   WHERE 
-    id=$1;`;
+    "dev"."id"=$1;`;
 
   const queryResult: QueryResult<IDeveloperResponse> = await client.query(
     queryString,
@@ -59,7 +59,7 @@ const update = async (payload: TDeveloperUpdate, id: number) => {
   UPDATE 
     "developers"
   SET 
-    (I%) = ROW(%L)
+    (%I)=ROW(%L)
   WHERE
     id=$1
   RETURNING *;
@@ -84,21 +84,27 @@ const destroy = async (id: number) => {
   return;
 };
 
-const newInfo = async (payload: TDeveloperInfosCreate) => {
+const newInfo = async (payload: TDeveloperInfosCreate, id: number) => {
+  const newPayload = {
+    ...payload,
+    developerSince: new Date(payload.developerSince),
+  };
+
   const queryString: string = format(
     `
         INSERT INTO "developerInfos"
-            (%I)
+            (%I, "developerId")
         VALUES
-            (%L)
+            (%L, $1)
         RETURNING *;
     `,
     Object.keys(payload),
-    Object.values(payload)
+    Object.values(newPayload)
   );
 
   const queryResult: QueryResult<IDeveloperInfos> = await client.query(
-    queryString
+    queryString,
+    [id]
   );
 
   return queryResult.rows[0];

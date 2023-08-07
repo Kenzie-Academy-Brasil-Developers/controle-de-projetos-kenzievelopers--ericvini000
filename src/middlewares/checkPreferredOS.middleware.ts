@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { client } from "../database";
 import AppError from "../errors/AppError";
-import { TDeveloperInfosCreate } from "../interfaces/developer.interfaces";
 
 const checkPreferredOS = (
   req: Request,

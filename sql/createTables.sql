@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS "developerInfos"(
             ON DELETE CASCADE
 );
 
+DROP TABLE "developerInfos";
+
 CREATE TABLE IF NOT EXISTS "projects"(
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL,

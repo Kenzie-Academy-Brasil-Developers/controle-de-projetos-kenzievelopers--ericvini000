@@ -20,7 +20,7 @@ const checkIdExists = async (
 
   const developer = await client.query(queryString, [id]);
 
-  if (!developer) throw new AppError("Developer not found.", 404);
+  if (!developer.rowCount) throw new AppError("Developer not found.", 404);
 
   res.locals = { ...res.locals, id, developer };
 
