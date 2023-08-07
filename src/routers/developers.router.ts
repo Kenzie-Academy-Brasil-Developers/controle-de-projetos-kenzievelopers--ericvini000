@@ -7,6 +7,7 @@ import {
 } from "../controllers";
 import { checkIdExists } from "../middlewares";
 import checkEmailExists from "../middlewares/checkEmailExists.middleware";
+import { createDeveloperInfo } from "../controllers/developer.controller";
 
 const developerRouter: Router = Router();
 
@@ -18,5 +19,6 @@ developerRouter.get("/:id", findDeveloper);
 developerRouter.patch("/:id", checkEmailExists, updateDeveloper);
 developerRouter.delete("/:id", deleteDeveloper);
 
+developerRouter.post("/:id/infos", createDeveloperInfo);
 
 export default developerRouter;

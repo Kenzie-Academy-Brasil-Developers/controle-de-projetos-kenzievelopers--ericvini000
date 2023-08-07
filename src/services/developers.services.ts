@@ -1,10 +1,12 @@
 import format from "pg-format";
 import { client } from "../database";
-import { Query, QueryResult } from "pg";
+import { QueryResult } from "pg";
 import {
+  IDeveloperInfos,
   IDeveloperResponse,
   IDevelopers,
   TDeveloperCreate,
+  TDeveloperInfosCreate,
   TDeveloperUpdate,
 } from "../interfaces/developer.interfaces";
 
@@ -82,4 +84,24 @@ const destroy = async (id: number) => {
   return;
 };
 
-export default { create, read, update, destroy };
+const newInfo = async (payload: TDeveloperInfosCreate) => {
+  const queryString: string = format(
+    `
+        INSERT INTO "developerInfos"
+            (%I)
+        VALUES
+            (%L)
+        RETURNING *;
+    `,
+    Object.keys(payload),
+    Object.values(payload)
+  );
+
+  const queryResult: QueryResult<IDeveloperInfos> = await client.query(
+    queryString
+  );
+
+  return queryResult.rows[0];
+};
+
+export default { create, read, update, destroy, newInfo };

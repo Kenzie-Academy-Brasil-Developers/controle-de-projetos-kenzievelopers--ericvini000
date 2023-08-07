@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { developerServices } from "../services";
 import {
+  IDeveloperInfos,
   IDeveloperResponse,
   IDevelopers,
   TDeveloperCreate,
+  TDeveloperInfosCreate,
   TDeveloperUpdate,
 } from "../interfaces/developer.interfaces";
 
@@ -48,9 +50,26 @@ const deleteDeveloper = async (
 ): Promise<Response> => {
   const { id } = res.locals;
 
-  await developerServices.destroy(id)
+  await developerServices.destroy(id);
 
   return res.status(204).send();
 };
 
-export { createDeveloper, findDeveloper, updateDeveloper, deleteDeveloper };
+const createDeveloperInfo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const payload: TDeveloperInfosCreate = req.body;
+
+  const newInfo: IDeveloperInfos = await developerServices.newInfo(payload);
+
+  return res.status(201).json(newInfo);
+};
+
+export {
+  createDeveloper,
+  findDeveloper,
+  updateDeveloper,
+  deleteDeveloper,
+  createDeveloperInfo,
+};
