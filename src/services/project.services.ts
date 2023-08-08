@@ -28,11 +28,21 @@ const create = async (payload: TProjectCreate) => {
 const retrieve = async (id: number) => {
   const queryString: string = `
     SELECT 
-        *
+        "pj"."id" AS "projectId",
+        "pj"."name" AS "projectName",
+        "pj"."description" AS "projectDescription",
+        "pj"."repository" AS "projectRepository",
+        "pj"."startDate" AS "projectStartDate",
+        "pj"."endDate" AS "projectEndDate",
+        "dev"."name" AS "projectDeveloperName"
     FROM
-        "projects"
+        "projects" AS "pj"
+    JOIN
+        "developers" AS "dev"
+    ON
+        "pj"."developerId" = "dev"."id"
     WHERE
-        id=$1;
+        "pj"."id"=$1;
     `;
 
   const queryResult: QueryResult<IProject> = await client.query(queryString, [

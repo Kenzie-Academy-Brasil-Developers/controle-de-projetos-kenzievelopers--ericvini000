@@ -27,7 +27,7 @@ const findProject = async (
 
   const foundProject: IProject = await projectServices.retrieve(projectId);
 
-  return res.status(201).json(foundProject);
+  return res.status(200).json(foundProject);
 };
 
 const updateProject = async (

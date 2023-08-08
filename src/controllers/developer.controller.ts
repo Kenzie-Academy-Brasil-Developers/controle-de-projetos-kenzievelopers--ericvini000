@@ -26,7 +26,8 @@ const findDeveloper = async (
 ): Promise<Response> => {
   const { id } = res.locals;
 
-  const foundDev: IDeveloperResponse = await developerServices.read(id);
+  const foundDev: IDeveloperResponse = await developerServices.retrieve(id);
+  console.log(foundDev);
 
   return res.status(200).json(foundDev);
 };

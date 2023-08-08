@@ -28,10 +28,10 @@ const create = async (payload: TDeveloperCreate) => {
   return queryResult.rows[0];
 };
 
-const read = async (id: number) => {
+const retrieve = async (id: number) => {
   const queryString: string = `
   SELECT 
-    "dev"."id" AS "developerId",
+    "di"."developerId" AS "developerId",
     "dev"."name" AS "developerName",
     "dev"."email" AS "developerEmail",
     "di"."developerSince" AS "developerInfoDeveloperSince",
@@ -88,26 +88,26 @@ const newInfo = async (payload: TDeveloperInfosCreate, id: number) => {
   const newPayload = {
     ...payload,
     developerSince: new Date(payload.developerSince),
+    developerId: id,
   };
 
   const queryString: string = format(
     `
         INSERT INTO "developerInfos"
-            (%I, "developerId")
+            (%I)
         VALUES
-            (%L, $1)
+            (%L)
         RETURNING *;
     `,
-    Object.keys(payload),
+    Object.keys(newPayload),
     Object.values(newPayload)
   );
 
   const queryResult: QueryResult<IDeveloperInfos> = await client.query(
-    queryString,
-    [id]
+    queryString
   );
 
   return queryResult.rows[0];
 };
 
-export default { create, read, update, destroy, newInfo };
+export default { create, retrieve, update, destroy, newInfo };
