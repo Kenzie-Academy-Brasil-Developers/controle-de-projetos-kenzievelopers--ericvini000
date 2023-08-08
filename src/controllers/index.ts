@@ -5,4 +5,18 @@ import {
   deleteDeveloper,
 } from "./developer.controller";
 
-export { createDeveloper, findDeveloper, updateDeveloper, deleteDeveloper };
+import {
+  createProject,
+  findProject,
+  updateProject,
+} from "./project.controller";
+
+export {
+  createDeveloper,
+  findDeveloper,
+  updateDeveloper,
+  deleteDeveloper,
+  createProject,
+  findProject,
+  updateProject,
+};

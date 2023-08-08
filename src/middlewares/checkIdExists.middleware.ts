@@ -7,7 +7,9 @@ const checkIdExists = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = Number(req.params.id);
+  const id = req.body.developerId
+    ? req.body.developerId
+    : Number(req.params.id);
 
   const queryString: string = `
     SELECT 
