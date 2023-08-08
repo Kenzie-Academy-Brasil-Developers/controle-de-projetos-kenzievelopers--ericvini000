@@ -48,7 +48,8 @@ const update = async (payload: TProjectUpdate, id: number) => {
     UPDATE "projects"
         SET (%I) = ROW(%L)
     WHERE
-        id=$1;
+        id=$1
+    RETURNING *;
     `,
     Object.keys(payload),
     Object.values(payload)

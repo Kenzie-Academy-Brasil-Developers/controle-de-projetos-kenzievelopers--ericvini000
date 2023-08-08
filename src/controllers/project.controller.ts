@@ -41,7 +41,7 @@ const updateProject = async (
 
   const newProject: IProject = await projectServices.update(payload, projectId);
 
-  return res.status(201).json(newProject);
+  return res.status(200).json(newProject);
 };
 
 export { createProject, findProject, updateProject };
