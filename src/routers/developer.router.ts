@@ -1,15 +1,18 @@
 import { Router } from "express";
+
 import {
   createDeveloper,
   deleteDeveloper,
   findDeveloper,
   updateDeveloper,
 } from "../controllers";
+
 import {
   checkIdExists,
   checkInfoExists,
   checkPreferredOS,
 } from "../middlewares";
+
 import checkEmailExists from "../middlewares/checkEmailExists.middleware";
 import { createDeveloperInfo } from "../controllers/developer.controller";
 

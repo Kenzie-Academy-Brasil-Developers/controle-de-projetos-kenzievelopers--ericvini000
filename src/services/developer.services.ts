@@ -38,7 +38,7 @@ const retrieve = async (id: number) => {
     "di"."preferredOS" AS "developerInfoPreferredOS"
   FROM 
     "developers" AS "dev"
-  JOIN
+  LEFT JOIN
     "developerInfos" AS "di"
   ON
     "dev"."id" = "di"."developerId"
